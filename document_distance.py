@@ -175,7 +175,7 @@ def get_tf(file_path):
     """
     load_file = open(file_path, 'r')
     file_content = load_file.read() 
-    file_content = file_content.translate(str.maketrans('', '', string.punctuation))
+    file_content = file_content.translate(str.maketrans('', '', string.punctuation)).lower()
     tf_dict = {}
     word_list = text_to_list(file_content) 
     total_word = len(word_list)
@@ -210,7 +210,7 @@ def get_idf(file_paths):
         with open(path, 'r') as file:
             file_contents = file.read()
             
-        file_contents = file_contents.translate(str.maketrans('', '', string.punctuation))
+        file_contents = file_contents.translate(str.maketrans('', '', string.punctuation)).lower()
         
         words_in_file = text_to_list(file_contents)
         
@@ -252,8 +252,8 @@ def get_tfidf(tf_file_path, idf_file_paths):
     tfidf_list_tuple = []
     
     for word in tf:
-        if word in idf:
-            tfidf = tf[word] * idf[word]
+        if word.lower() in idf:
+            tfidf = tf[word] * idf[word.lower()]
             tfidf_dict[word] = tfidf 
             
     tfidf_list_tuple = sorted(tfidf_dict.items(), key=lambda x: (x[1], x[0]))
